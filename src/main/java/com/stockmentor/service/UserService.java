@@ -8,39 +8,20 @@ import com.stockmentor.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
-@RequiredArgsConstructor
-public class UserService {
-    private final UserRepository userRepo;
-    private final PasswordEncoder passwordEncoder;
+public interface UserService {
 
     //회원가입
-    public void signUp(String email, String rawPassword, String nickname) {
-        if(userRepo.existsByEmail(email)) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
-        }
+    void signUp(String email, String rawPassword, String nickname);
 
-        String encodeedPassword = passwordEncoder.encode(rawPassword);
-        User user = User.createNormal(email, encodeedPassword, nickname);
-        userRepo.save(user);
-    }
+    //로그인
+    User login(String email, String rawPassword);
 
-    public User findByEmail(String email) {
-        return userRepo.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
-    }
+    User findByEmail(String email);
 
     // 첫 투자성향 선택
-    public void updateRiskType(Long userId, User.RiskType riskType) {
-        User user = userRepo.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
-        user.updateRiskType(riskType);
-    }
+    void updateRiskType(Long userId, User.RiskType riskType);
 
     //프로필 수정
-    public void updateProfile(Long userId, String nickname, String interestSector, User.RiskType riskType) {
-        User user = userRepo.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
-        user.updateProfile(nickname, interestSector, riskType);
-    }
+    void updateProfile(Long userId, String nickname, String interestSector, User.RiskType riskType);
+
 }
