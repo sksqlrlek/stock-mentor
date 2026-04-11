@@ -6,10 +6,12 @@ import org.springframework.stereotype.Service;
 import com.stockmentor.entity.User;
 import com.stockmentor.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
