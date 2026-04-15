@@ -4,6 +4,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.stockmentor.entity.User;
+import com.stockmentor.exception.BusinessException;
+import com.stockmentor.exception.ErrorCode;
 import com.stockmentor.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -20,7 +22,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void signUp(String email, String rawPassword, String nickname) {
         if(userRepo.existsByEmail(email)) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+            throw new BusinessException(ErrorCode.DUPLICATE_EMAIL);
         }
 
         String encodeedPassword = passwordEncoder.encode(rawPassword);
@@ -31,9 +33,9 @@ public class UserServiceImpl implements UserService{
     //로그인
     @Override
     public User login(String email, String rawPassword) {
-        User user = userRepo.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("이메일 혹은 비밀번호가 일치하지 않습니다."));
+        User user = userRepo.findByEmail(email).orElseThrow(() -> new BusinessException(ErrorCode.INVALID_CREDENTIALS));
 
-        if(!passwordEncoder.matches(rawPassword, user.getPassword())) throw new IllegalArgumentException("이메일 혹은 비밀번호가 일치하지 않습니다.");
+        if(!passwordEncoder.matches(rawPassword, user.getPassword())) throw new BusinessException(ErrorCode.INVALID_CREDENTIALS);
 
         return user;
     }
@@ -41,14 +43,14 @@ public class UserServiceImpl implements UserService{
     @Override
     public User findByEmail(String email) {
         return userRepo.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
     }
 
     // 첫 투자성향 선택
     @Override
     public void updateRiskType(Long userId, User.RiskType riskType) {
         User user = userRepo.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         user.updateRiskType(riskType);
     }
 
@@ -56,7 +58,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void updateProfile(Long userId, String nickname, String interestSector, User.RiskType riskType) {
         User user = userRepo.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         user.updateProfile(nickname, interestSector, riskType);
     }
 }

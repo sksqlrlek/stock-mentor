@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Optional;
 
 import com.stockmentor.entity.User;
+import com.stockmentor.exception.BusinessException;
 import com.stockmentor.repository.UserRepository;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +29,7 @@ public class UserServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Test
     void 회원가입_성공() {
@@ -43,7 +45,7 @@ public class UserServiceTest {
     void 회원가입_실패_이메일중복() {
         when(userRepo.existsByEmail("test@test.com")).thenReturn(true);
 
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(BusinessException.class, () ->
             userService.signUp("test@test.com", "test1234", "테스터")
         );
     }
@@ -62,7 +64,7 @@ public class UserServiceTest {
     void 이메일로_유저_조회_실패() {
         when(userRepo.findByEmail("test@test.com")).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(BusinessException.class, () ->
             userService.findByEmail("test@test.com")
         );
     }
