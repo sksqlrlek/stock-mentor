@@ -1,0 +1,44 @@
+package com.stockmentor.controller;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.stockmentor.dto.WatchlistAddRequest;
+import com.stockmentor.dto.WatchlistResponse;
+import com.stockmentor.entity.User;
+import com.stockmentor.service.WatchlistService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/api/watchlist")
+@RequiredArgsConstructor
+public class WatchlistController {
+    
+    private final WatchlistService watchService;
+
+    @GetMapping
+    public ResponseEntity<List<WatchlistResponse>> getWatchlist(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(watchService.getWatchlist(user.getId()));
+    }
+
+    @PostMapping
+    public ResponseEntity<WatchlistResponse> addToWatchlist(@AuthenticationPrincipal User user, @RequestBody @Valid WatchlistAddRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(watchService.addToWatchlist(user.getId(), request));
+    }
+
+    public ResponseEntity<Void> deleteFromWatchlist(@AuthenticationPrincipal User user, @PathVariable Long watchlistId) {
+        watchService.deleteFromWatchlist(user.getId(), watchlistId);
+        return ResponseEntity.noContent().build();
+    }
+}
