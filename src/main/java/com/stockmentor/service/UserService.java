@@ -1,12 +1,6 @@
 package com.stockmentor.service;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.stockmentor.entity.User;
-import com.stockmentor.repository.UserRepository;
-
-import lombok.RequiredArgsConstructor;
 
 public interface UserService {
 
@@ -18,6 +12,8 @@ public interface UserService {
 
     User findByEmail(String email);
 
+    User findById(Long userId);
+    
     // 첫 투자성향 선택
     void updateRiskType(Long userId, User.RiskType riskType);
 

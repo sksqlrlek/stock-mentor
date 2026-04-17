@@ -46,6 +46,12 @@ public class UserServiceImpl implements UserService{
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
     }
 
+    @Override
+    public User findById(Long userId) {
+        return userRepo.findById(userId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+    }
+
     // 첫 투자성향 선택
     @Override
     public void updateRiskType(Long userId, User.RiskType riskType) {
