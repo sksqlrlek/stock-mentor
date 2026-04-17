@@ -1,5 +1,7 @@
 package com.stockmentor.exception;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.Getter;
 
 @Getter
@@ -8,8 +10,8 @@ public class ErrorResponse {
     private final String code;
     private final String message;
 
-    private ErrorResponse(int status, String code, String message) {
-        this.status = status;
+    private ErrorResponse(HttpStatus status, String code, String message) {
+        this.status = status.value();
         this.code = code;
         this.message = message;
     }
