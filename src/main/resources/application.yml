@@ -11,6 +11,11 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.OracleDialect
-
+# 로컬
+app:
+  oauth2:
+    redirect-uri:
+      success: http://localhost:3000/oauth2/callback
+      failure: http://localhost:3000/login
 server:
   port: 8080
