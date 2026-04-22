@@ -78,6 +78,14 @@
 			<version>0.11.5</version>
 			<scope>runtime</scope>
 		</dependency>
+
+		<!-- HTTP 통신 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+
+		<!-- 테스트 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
