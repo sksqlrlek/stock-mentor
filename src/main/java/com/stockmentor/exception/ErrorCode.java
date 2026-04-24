@@ -19,6 +19,9 @@ public enum ErrorCode {
     KIS_TOKEN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "KIS_TOKEN_ERROR", "KIS API 토큰 발급에 실패했습니다."),
     KIS_API_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "KIS_API_ERROR", "KIS API 호출에 실패했습니다."),
     
+    // 네이버 뉴스 관련
+    NEWS_API_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "NEWS_API_ERROR", "뉴스 데이터 조회에 실패했습니다."),
+
     // Stock 관련
     STOCK_NOT_FOUND(HttpStatus.NOT_FOUND, "STOCK_NOT_FOUND", "존재하지 않는 종목입니다."),
 
