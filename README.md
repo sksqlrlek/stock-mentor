@@ -168,7 +168,12 @@ AI는 사용자가 스스로 더 나은 판단을 내릴 수 있도록 정보와
 | GET | /api/stocks/{code} | 종목 기본 정보 및 현재가 | ❌ |
 | GET | /api/stocks/{code}/chart | 주가 차트 데이터 | ❌ |
 | GET | /api/stocks/{code}/indicators | 기술적 지표 (RSI, MA 등) | ❌ |
-| GET | /api/stocks/{code}/news | 관련 뉴스 목록 | ❌ |
+
+### 뉴스 API
+
+| Method | Endpoint | 설명 | 인증 |
+|--------|----------|------|------|
+| GET | /api/news?keyword={keyword} | 키워드 기반 뉴스 조회 | ❌ |
 
 ### AI 분석 API
 
