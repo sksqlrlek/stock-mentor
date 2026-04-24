@@ -67,11 +67,7 @@ AI는 사용자가 스스로 더 나은 판단을 내릴 수 있도록 정보와
 - 관심 종목 저장 및 목록 관리
 - 저장 종목의 현재가 및 등락률 한눈에 확인
 
-### ⑥ 분석 히스토리
-- 과거 AI 분석 결과 저장 및 재조회
-- 날짜별 분석 비교로 투자 판단 근거 기록
-
-### ⑦ 회원 시스템
+### ⑥ 회원 시스템
 - 회원가입 / 로그인 / 로그아웃 (JWT 인증)
 - 투자 성향 및 관심 섹터 설정
 - 성향에 따라 LLM 분석 톤 및 내용 개인화
@@ -98,10 +94,16 @@ AI는 사용자가 스스로 더 나은 판단을 내릴 수 있도록 정보와
 | API | 용도 |
 |-----|------|
 | Claude API (Anthropic) | 자연어 분석, 감성 분류, 전략 설명 생성 |
-| KIS Developers API | 국내 실시간 주가 데이터 |
-| yfinance / Alpha Vantage | 미국 주가 데이터 |
-| NewsAPI | 종목 관련 최신 뉴스 수집 |
+| KIS Developers API | 한국투자증권 무료 API, 국내 실시간 주가 데이터 |
+| Naver 검색 API | 국내 주식 관련 뉴스 수집 (한국어 특화) |
+| 카카오 OAuth2 | 소셜 로그인 |
+| 네이버 OAuth2 | 소셜 로그인 |
+| 구글 OAuth2 | 소셜 로그인 |
 
+![KIS](https://img.shields.io/badge/KIS_Developers-E8003D?style=flat-square)
+![Kakao](https://img.shields.io/badge/Kakao_OAuth2-FFCD00?style=flat-square&logo=kakao&logoColor=black)
+![Naver](https://img.shields.io/badge/Naver_OAuth2-03C75A?style=flat-square&logo=naver&logoColor=white)
+![Google](https://img.shields.io/badge/Google_OAuth2-4285F4?style=flat-square&logo=google&logoColor=white)
 ### 기술 선택 이유
 
 **Maven + Spring Boot를 선택한 이유**
@@ -129,7 +131,7 @@ AI는 사용자가 스스로 더 나은 판단을 내릴 수 있도록 정보와
   ├── Controller → Service → Repository
   │
   ├── [Oracle DB 21c XE]
-  │     └── USERS / WATCHLIST / ANALYSIS_HISTORY
+  │     └── USERS / WATCHLIST / 
   │
   └── [외부 API 연동]
         ├── Claude API  →  AI 분석 텍스트 생성
@@ -208,7 +210,10 @@ AI는 사용자가 스스로 더 나은 판단을 내릴 수 있도록 정보와
 
 | 문제 | 원인 | 해결 |
 |------|------|------|
-| 추후 업데이트 예정 | | |
+- KIS 모의투자 → 실전투자 전환 (credentials_type 오류)
+- JwtFilter @Component 제거 (순환 참조)
+- Oracle 리스너 연결 문제
+- N+1 문제 (나중에 @EntityGraph로 해결 예정)
 
 <br>
 
